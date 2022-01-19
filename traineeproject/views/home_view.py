@@ -1,5 +1,3 @@
-import imp
-from re import template
 from django.apps import apps as django_apps
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -8,7 +6,7 @@ from edc_navbar import NavbarViewMixin
 
 class HomeView(EdcBaseViewMixin,NavbarViewMixin):
 #  set variables
-    template = 'traineeproject/home.html'
+    template_name = 'traineeproject/home.html'
     navbar_name = 'traineeproject'
     navbar_selected_item = 'home'
 
