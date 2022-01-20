@@ -1,4 +1,4 @@
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -113,10 +113,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'traineeproject', 'static')
 
 # dashboards
 DASHBOARD_URL_NAMES = {
     'screening_listboard_url': 'traineeproject_dashboard:screening_listboard_url',
     'subject_listboard_url': 'traineeproject_dashboard:subject_listboard_url',
     'subject_dashboard_url': 'traineeproject_dashboard:subject_dashboard_url',
+}
+
+DASHBOARD_BASE_TEMPLATES = {
+    'listboard_base_template': 'esr21/base.html',
+    'dashboard_base_template': 'esr21/base.html',
+    'subject_dashboard_template': 'esr21_dashboard/subject/dashboard.html',
+    'screening_listboard_template': 'esr21_dashboard/screening/listboard.html',
+    'subject_listboard_template': 'esr21_dashboard/subject/listboard.html',
+
 }
