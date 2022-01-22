@@ -4,14 +4,14 @@ from django.views.generic import TemplateView
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_navbar import NavbarViewMixin
 
-class HomeView(EdcBaseViewMixin,NavbarViewMixin):
+class HomeView(EdcBaseViewMixin,NavbarViewMixin,TemplateView):
 #  set variables
     template_name = 'traineeproject/home.html'
     navbar_name = 'traineeproject'
     navbar_selected_item = 'home'
 
-    subject_screening_model = 'traineeproject_subject.screening_eligibility'
-    subject_consent_model = 'traineeproject_subject.subject_consent'
+    subject_screening_model = 'traineeproject_subject.screeningeligibility'
+    subject_consent_model = 'traineeproject_subject.subjectconsent'
 
 # create getter/setter func that return models
 
