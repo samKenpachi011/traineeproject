@@ -1,4 +1,4 @@
-import configparser
+
 import os
 from datetime import datetime
 from django.apps import AppConfig as DjangoAppConfig
@@ -16,15 +16,17 @@ from edc_protocol.apps import AppConfig as BaseEdcProtocolAppConfig
 from edc_timepoint.timepoint import Timepoint
 from edc_timepoint.timepoint_collection import TimepointCollection
 from edc_appointment.constants import COMPLETE_APPT
+from edc_visit_tracking.constants import (SCHEDULED, UNSCHEDULED, LOST_VISIT,
+                                        MISSED_VISIT, COMPLETED_PROTOCOL_VISIT)
+from edc_constants.constants import FAILED_ELIGIBILITY
+from edc_metadata.apps import AppConfig as BaseEdcMetadataAppConfig
 from traineeproject_dashboard.patterns import subject_identifier
-
+from edc_facility.apps import AppConfig as BaseEdcFacilityAppConfig
+from dateutil.relativedelta import MO, TU, WE, TH, FR, SA, SU
 
 
 class AppConfig(DjangoAppConfig):
     name = 'traineeproject'
-
-
-
 class EdcProtocolAppConfig(BaseEdcProtocolAppConfig):
     protocol = 'BHP150'
     protocol_name = 'BHP150 | ADZ 1222 - ESR-21-21311'
@@ -35,11 +37,20 @@ class EdcProtocolAppConfig(BaseEdcProtocolAppConfig):
     study_close_datetime = datetime(
         2025, 12, 1, 0, 0, 0, tzinfo=gettz('UTC'))
 
+
+class EdcFacilityAppConfig(BaseEdcFacilityAppConfig):
+    country = 'botswana'
+    definitions = {
+        '7-day clinic': dict(days=[MO, TU, WE, TH, FR, SA, SU],
+                             slots=[100, 100, 100, 100, 100, 100, 100]),
+        '5-day clinic': dict(days=[MO, TU, WE, TH, FR],
+                             slots=[100, 100, 100, 100, 100])}
 class EdcAppointmentAppConfig(BaseEdcAppointmentAppConfig):
+    default_appt_type = 'clinic'
     configurations = [
         AppointmentConfig(
             model='edc_appointment.appointment',
-            related_visit_model='esr21_subject.subjectvisit',
+            related_visit_model='traineeproject_subject.subjectvisit',
             appt_type='clinic'),
     ]
 class EdcVisitTrackingAppConfig(BaseEdcVisitTrackingAppConfig):
@@ -71,3 +82,8 @@ class EdcTimepointAppConfig(BaseEdcTimepointAppConfig):
                 status_field='appt_status',
                 closed_status=COMPLETE_APPT),
         ])                
+    
+class EdcMetadataAppConfig(BaseEdcMetadataAppConfig):
+    reason_field = {'training_subject.subjectvisit': 'reason'}
+    create_on_reasons = [SCHEDULED, UNSCHEDULED, COMPLETED_PROTOCOL_VISIT]
+    delete_on_reasons = [LOST_VISIT, MISSED_VISIT, FAILED_ELIGIBILITY]       

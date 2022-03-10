@@ -19,11 +19,12 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 APP_NAME = 'traineeproject'
 SITE_ID = 40
-
+REVIEWER_SITE_ID = 1
 
 ETC_DIR= os.path.join('/etc/', APP_NAME)
 
 # KEY_PATH = os.path.join(ETC_DIR, 'crypto_fields')
+LOGIN_REDIRECT_URL = 'home_url'
 
 INDEX_PAGE = 'trainee-project.bhp.org.bw:8000'
 
@@ -37,22 +38,32 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_extensions',
     'django_crypto_fields.apps.AppConfig',
     'edc_dashboard.apps.AppConfig',
+    'edc_identifier.apps.AppConfig',
     'edc_action_item.apps.AppConfig',
     'edc_subject_dashboard.apps.AppConfig',
     'edc_base.apps.AppConfig', 
     'edc_locator.apps.AppConfig',
+    'edc_consent.apps.AppConfig',
     'edc_prn.apps.AppConfig',
     'edc_navbar.apps.AppConfig',
     'edc_device.apps.AppConfig',
+    'edc_registration.apps.AppConfig',
+    'edc_visit_schedule.apps.AppConfig',
+    'edc_calendar.apps.AppConfig',
+    'traineeproject_visit_schedule.apps.AppConfig',
+    'traineeproject_prn.apps.AppConfig',
     'traineeproject.apps.EdcProtocolAppConfig',
     'traineeproject.apps.EdcLabelAppConfig',
     'traineeproject.apps.EdcLabAppConfig',
     'traineeproject.apps.EdcDataManagerAppConfig',
     'traineeproject.apps.EdcAppointmentAppConfig',
+    'traineeproject.apps.EdcMetadataAppConfig',
     'traineeproject.apps.EdcVisitTrackingAppConfig',
     'traineeproject.apps.EdcTimepointAppConfig',
+    'traineeproject.apps.EdcFacilityAppConfig',
     'traineeproject.apps.AppConfig',
     'traineeproject_dashboard.apps.AppConfig',
     'traineeproject_validation.apps.AppConfig',
@@ -65,11 +76,14 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'edc_dashboard.middleware.DashboardMiddleware',
-    'edc_subject_dashboard.middleware.DashboardMiddleware',
+    'edc_subject_dashboard.middleware.DashboardMiddleware', 
+    'edc_lab_dashboard.middleware.DashboardMiddleware',
+
 ]
 
 ROOT_URLCONF = 'traineeproject.urls'
@@ -163,3 +177,8 @@ DASHBOARD_BASE_TEMPLATES = {
     'data_manager_listboard_template': 'edc_data_manager/listboard.html',
 
 }
+
+# Parent reference
+
+PARENT_REFERENCE_MODEL1 = ''
+PARENT_REFERENCE_MODEL2 = ''
